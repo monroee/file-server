@@ -1,0 +1,17 @@
+/* You can add global styles to this file, and also import other style files */
+#navMain {
+    padding: 15px;
+    font-size: large !important;
+}
+
+body{
+    font-size: small;
+}
+
+.footer {
+  background-color: #343a40!important;
+  color: white;
+  position: relative;
+  text-align: center;
+  padding: 10px;
+}

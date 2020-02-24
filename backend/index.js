@@ -10,8 +10,8 @@ const ip = require('ip');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
-app.use(express.static(path.join(__dirname, 'dist/frontend')));
-app.use('/', express.static(path.join(__dirname, 'dist/frontend')));
+app.use(express.static(path.join(__dirname, 'dist/frontend-ng')));
+app.use('/', express.static(path.join(__dirname, 'dist/frontend-ng')));
 app.use('/api', fileRoute);
 
 const port = process.env.PORT || 2606;

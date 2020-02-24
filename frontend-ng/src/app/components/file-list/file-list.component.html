@@ -1,0 +1,29 @@
+<div class="container">
+  <!-- No data message -->
+  <br>
+  <p *ngIf="Files.length <= 0" class="no-data text-center">There is no available files in the directory</p>
+
+  <!-- Files list -->
+  <table class="table table-stripe table-hover" *ngIf="Files.length > 0">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">File</th>
+        <th scope="col">Modified Date</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let file of Files; let i = index">
+        <td><img class="img" src="{{file.image_url}}" /></td>
+        <td scope="row">{{file.display}}</td>
+        <td>{{file.modified_date}}</td>
+        <td>
+          <a class="nav-link" routerLinkActive="active" routerLink="/file-download">
+            <img class="img" src="{{DownloadImageUrl}}" />
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
