@@ -7,9 +7,6 @@ const File = require('./file.model');
 dotenv.config();
 
 async function GetFiles() {
-    let files;
-    let stats;
-    let result = [];
     try {
 
         let files = fs.readdirSync(process.env.FILE_DIR);
@@ -25,10 +22,11 @@ function GetDetails(files) {
     let result = [];
     files.forEach(file => {
         let current_file = path.join(process.env.FILE_DIR, file);
+        let current_file_type = mime.getType(current_file);
         let stat = fs.statSync(current_file);
         let obj = new File(
             name = file,
-            type = mime.getType(current_file),
+            type = current_file_type == null ? 'Folder' : current_file_type,
             size = formatBytes(stat.size),
             modified_date = stat.mtime.toLocaleString()
         );

@@ -1,12 +1,13 @@
 const express = require('express');
-const app = express();
 const fileRoute = express.Router();
+const cache = require('./file.cache');
 
 let File = require('./index');
 
-fileRoute.route('/').get((req, res) => {
+fileRoute.route('/').get(cache.filesCache, (req, res) => {
     File.getFiles()
     .then((result) => {
+        cache.client.setex("files", 60, JSON.stringify(result));
         res.json(result);
     })
 });

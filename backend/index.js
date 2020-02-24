@@ -1,4 +1,3 @@
-const files = require('./app/file/file');
 const express = require('express');
 const app = express();
 const cors = require('cors');

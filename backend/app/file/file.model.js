@@ -3,8 +3,9 @@ let File = function (name, type, size, modified_date) {
     this.type = type;
     this.size = size;
     this.modified_date = modified_date;
-    this.display = `${name} - ${size}`;
 
+    let size_display = size == "0 Bytes" ? '' : `- ${size}`;
+    this.display = `${name} ${size_display}`.trim(); 
 };
 
 module.exports = File;
