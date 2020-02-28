@@ -1,9 +1,9 @@
 .img {
-    width: 30px;
-    height: 30px;
+  width: 30px;
+  height: 30px;
 }
 
-#nav_search{
-    top: 75px;
-    position: sticky;
+#nav_search {
+  top: 80px;
+  position: sticky;
 }

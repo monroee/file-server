@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { FileListComponent } from './components/file-list/file-list.component';
 import { FileSettingComponent } from './components/file-setting/file-setting.component';
 import { FileAboutComponent } from './components/file-about/file-about.component';
-
+import { ModalComponent } from "./components/modal/modal.component";
 import { ApiService } from "./service/api.service";
 
 @NgModule({
@@ -17,7 +17,8 @@ import { ApiService } from "./service/api.service";
     AppComponent,
     FileListComponent,
     FileSettingComponent,
-    FileAboutComponent
+    FileAboutComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

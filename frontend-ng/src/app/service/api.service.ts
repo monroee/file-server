@@ -21,8 +21,13 @@ export class ApiService {
     .pipe(catchError(this.errorMgmt));
   }
 
+  playMedia(full_path: string) {
+    return this.http.get(`${this.baseUri}/stream`, {params: {full_path: full_path}, responseType: "blob"})
+    .pipe(catchError(this.errorMgmt));
+  }
+
   getFiles() {
-    return this.http.get(`${this.baseUri}`).pipe(catchError(this.errorMgmt));;
+    return this.http.get(`${this.baseUri}`).pipe(catchError(this.errorMgmt));
   }
 
   getSettings() {

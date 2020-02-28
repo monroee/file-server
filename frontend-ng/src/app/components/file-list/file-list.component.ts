@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from "./../../service/api.service";
 import { saveAs } from "file-saver";
+import { $, Button } from 'protractor';
 
 @Component({
   selector: 'app-file-list',
@@ -14,6 +15,7 @@ export class FileListComponent implements OnInit {
   PlayImageUrl: string = "assets/img/play_icon.png";
   searchText: any = '';
   FilteredFiles = [...this.Files];
+  ActiveFile: string;
 
   constructor(private apiService: ApiService) {
     this.readFiles();
@@ -63,6 +65,54 @@ export class FileListComponent implements OnInit {
           saveAs(data, name);
         },
         err => console.error(err));
+  }
+
+  playMedia(full_path: string, name: string, type: string) {
+    switch (type) {
+      case "audio/mpeg":
+      case "video/mp4":
+
+        this.apiService.playMedia(full_path)
+          .subscribe(data => {
+            let bloblURL = URL.createObjectURL(data);
+
+            this.ActiveFile = name;
+            let media_model_body = document.getElementById("modal_body");
+            media_model_body.innerHTML = "";
+            switch (type) {
+              case "audio/mpeg":
+                let audio_obj = document.createElement('audio');
+                audio_obj.setAttribute("src", bloblURL);
+                audio_obj.id = "audio_player";
+                audio_obj.setAttribute("style", "width: -webkit-fill-available");
+                audio_obj.setAttribute("controls", "controls");
+                audio_obj.autoplay = true;
+
+                media_model_body.appendChild(audio_obj);
+                break;
+              case "video/mp4":
+                let video_obj = document.createElement('video');
+                video_obj.setAttribute("src", bloblURL);
+                video_obj.id = "video_player";
+                video_obj.setAttribute("style", "height: 174px");
+                video_obj.setAttribute("controls", "controls");
+                video_obj.autoplay = true;
+
+                media_model_body.appendChild(video_obj);
+                break;
+            }
+
+            let modal_button = document.getElementById("modal_button");
+            modal_button.click();
+          },
+            err => console.error(err));
+
+        break;
+      default:
+        break;
+    }
+
+
   }
 
   private getImageUrl(file) {
