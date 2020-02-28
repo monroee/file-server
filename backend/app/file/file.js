@@ -26,9 +26,11 @@ function GetDetails(files) {
         let stat = fs.statSync(current_file);
         let obj = new File(
             name = file,
-            type = current_file_type == null ? 'Folder' : current_file_type,
+            type = current_file_type == null ? 'folder' : current_file_type,
             size = formatBytes(stat.size),
-            modified_date = stat.mtime.toLocaleString()
+            modified_date = stat.mtime.toLocaleString(),
+            url = process.env.FILE_DIR,
+            full_path = current_file
         );
         result.push(obj);
     });

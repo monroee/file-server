@@ -4,5 +4,6 @@ export class File {
     size: string;
     modified_date: string;
     display: string;
-    image_url: string;
+    url: string;
+    full_path: string;
 }

@@ -68,7 +68,7 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "frontend-ng:build",
-            "host": "localhost",
+            "host": "192.168.254.112",
             "port": 8888
           },
           "configurations": {

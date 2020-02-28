@@ -2,3 +2,8 @@
     width: 30px;
     height: 30px;
 }
+
+#nav_search{
+    top: 75px;
+    position: sticky;
+}
