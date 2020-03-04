@@ -3,6 +3,7 @@ const fileRoute = express.Router();
 const cache = require('./file.cache');
 const path = require('path');
 const fs = require('fs');
+const ms = require('mediaserver');
 
 let File = require('./index');
 
@@ -55,6 +56,11 @@ fileRoute.route('/stream').get((req, res) => {
 
 fileRoute.route('/test').get((req, res) => {
     res.send('yezzir!');
+});
+
+fileRoute.route('/audiotest').get((req, res) => {
+    let sample_audio = "C:/Users/Monroe/Music/Locals/Long Bond Yellow Papers/Release/LBYP - Maala-Ala Mo Kaya.mp3";
+    ms.pipe(req, res, sample_audio);
 });
 
 module.exports = fileRoute;

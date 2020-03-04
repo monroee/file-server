@@ -3,47 +3,22 @@
   <div *ngIf="Files.length > 0" class="active-pink-3 active-pink-4 mb-4" id="nav_search">
     <input type="text" class="form-control mb-4" [(ngModel)]="searchText" (keyup)="filterFiles()" placeholder="Search">
   </div>
-
+  <br>
   <p *ngIf="Files.length <= 0" class="no-data text-center">There is no available files in the directory</p>
 
   <!-- Files list -->
   <table class="table table-stripe table-hover" *ngIf="Files.length > 0">
     <tbody>
-      <tr *ngFor="let file of FilteredFiles" (click)="playMedia(file.full_path, file.name, file.type)">
-        <td><img class="img" src="{{file.image_url}}" /></td>
-        <td scope="row">{{file.display}}</td>
+      <tr *ngFor="let file of FilteredFiles">
+        <td (click)="playMedia(file)"><img class="img" src="{{file.image_url}}" /></td>
+        <td scope="row" (click)="playMedia(file)">{{file.display}}</td>
 
         <td>
-          <span *ngIf="file.type != 'folder'" (click)="downloadFile(file.full_path, file.name)">
+          <span *ngIf="file.type != 'folder'" (click)="downloadFile(file)">
             <img class="img" src="{{DownloadImageUrl}}" />
           </span>
         </td>
       </tr>
     </tbody>
   </table>
-</div>
-
-<!-- ALL CODES BELOW TO BE TRANSFERED -->
-
-<!-- Button trigger modal -->
-<button id="modal_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" hidden>
-hidden button for modal trigger huehue
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">{{ActiveFile}}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" id="modal_body">
-      </div>
-      <div class="modal-footer">
-      </div>
-    </div>
-  </div>
 </div>

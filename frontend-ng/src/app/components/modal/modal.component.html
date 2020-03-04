@@ -1,1 +1,16 @@
-<p>modal works!</p>
+<div id="modal-content-wrapper">
+  <header id="modal-header">
+    <h1 id="modal-title">{{ modalData.title }}</h1>
+  </header>
+  <br>
+  <section id="modal-body">
+    <video *ngIf="modalData.fileType == 'video/mp4'" id="modal-video" [src]="modalData.url" autoplay controls height="250px" width="100%">
+      Your browser is weaaaaak!
+    </video>
+    <audio *ngIf="modalData.fileType == 'audio/mpeg'" id="modal-audio" [src]="modalData.url" autoplay controls>
+      Your browser is weaaaaak!
+    </audio>
+  </section>
+  <footer id="modal-footer">
+  </footer>
+</div>

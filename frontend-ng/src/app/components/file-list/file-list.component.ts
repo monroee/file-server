@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ApiService } from "./../../service/api.service";
+import { Component, OnInit, SecurityContext } from '@angular/core';
+import { ApiService } from "../../service/api/api.service";
 import { saveAs } from "file-saver";
-import { $, Button } from 'protractor';
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { ModalComponent } from "../modal/modal.component";
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
   selector: 'app-file-list',
@@ -16,15 +18,16 @@ export class FileListComponent implements OnInit {
   searchText: any = '';
   FilteredFiles = [...this.Files];
   ActiveFile: string;
+  BlobUrl: any;
 
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService, public matDialog: MatDialog, public dom: DomSanitizer) {
     this.readFiles();
     this.filterFiles();
   }
 
   ngOnInit() { }
 
-  filterFiles() {
+  private filterFiles() {
 
     if (!this.Files.length) {
       this.FilteredFiles = [];
@@ -58,52 +61,26 @@ export class FileListComponent implements OnInit {
     });
   }
 
-  downloadFile(full_path: string, name: string) {
-    this.apiService.downloadFile(full_path)
+  downloadFile(file: any) {
+    this.apiService.downloadFile(file.full_path)
       .subscribe(
         data => {
-          saveAs(data, name);
+          saveAs(data, file.name);
         },
         err => console.error(err));
   }
 
-  playMedia(full_path: string, name: string, type: string) {
-    switch (type) {
+  playMedia(file: any) {
+    switch (file.type) {
       case "audio/mpeg":
       case "video/mp4":
 
-        this.apiService.playMedia(full_path)
+        this.apiService.playMedia(file.full_path)
           .subscribe(data => {
             let bloblURL = URL.createObjectURL(data);
-
-            this.ActiveFile = name;
-            let media_model_body = document.getElementById("modal_body");
-            media_model_body.innerHTML = "";
-            switch (type) {
-              case "audio/mpeg":
-                let audio_obj = document.createElement('audio');
-                audio_obj.setAttribute("src", bloblURL);
-                audio_obj.id = "audio_player";
-                audio_obj.setAttribute("style", "width: -webkit-fill-available");
-                audio_obj.setAttribute("controls", "controls");
-                audio_obj.autoplay = true;
-
-                media_model_body.appendChild(audio_obj);
-                break;
-              case "video/mp4":
-                let video_obj = document.createElement('video');
-                video_obj.setAttribute("src", bloblURL);
-                video_obj.id = "video_player";
-                video_obj.setAttribute("style", "height: 174px");
-                video_obj.setAttribute("controls", "controls");
-                video_obj.autoplay = true;
-
-                media_model_body.appendChild(video_obj);
-                break;
-            }
-
-            let modal_button = document.getElementById("modal_button");
-            modal_button.click();
+            this.BlobUrl = bloblURL;
+            this.ActiveFile = file.name;
+            this.openMediaModal(file);
           },
             err => console.error(err));
 
@@ -115,7 +92,7 @@ export class FileListComponent implements OnInit {
 
   }
 
-  private getImageUrl(file) {
+  private getImageUrl(file: { type: any; name: string; }) {
     switch (file.type) {
       case "folder":
         return "assets/img/folder_icon.png";
@@ -139,6 +116,38 @@ export class FileListComponent implements OnInit {
         break;
       default:
         return "assets/img/noimage_icon.png";
+    }
+  }
+
+  private openMediaModal(file: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.id = "modal-component";
+
+    let modalSize = this.getModalSize(file.type);
+
+    dialogConfig.height = modalSize.height;
+    dialogConfig.width = modalSize.width;
+    dialogConfig.data = {
+      name: "MediaModal",
+      fileType: file.type,
+      title: this.ActiveFile,
+      url: this.dom.bypassSecurityTrustUrl(this.BlobUrl)
+    };
+    const modalDialog = this.matDialog.open(ModalComponent, dialogConfig);
+  }
+
+  private getModalSize(fileType: string) {
+    switch(fileType){
+      case "audio/mpeg":
+        return { height: "30%", width: "90%"  }
+        break;
+      case "video/mp4":
+        return { height: "60%", width: "90%"  }
+        break;
+      default:
+        return { height: "50%", width: "50%"  };
+        break;
     }
   }
 
