@@ -10,6 +10,7 @@
     <audio *ngIf="modalData.fileType == 'audio/mpeg'" id="modal-audio" [src]="modalData.url" autoplay controls>
       Your browser is weaaaaak!
     </audio>
+    <img *ngIf="modalData.fileType == 'image/jpeg'" id="modal-img" [src]="modalData.url" height="300" width="100%"/>
   </section>
   <footer id="modal-footer">
   </footer>

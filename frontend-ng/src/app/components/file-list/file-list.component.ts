@@ -74,6 +74,7 @@ export class FileListComponent implements OnInit {
     switch (file.type) {
       case "audio/mpeg":
       case "video/mp4":
+      case "image/jpeg":
 
         this.apiService.playMedia(file.full_path)
           .subscribe(data => {
@@ -90,33 +91,6 @@ export class FileListComponent implements OnInit {
     }
 
 
-  }
-
-  private getImageUrl(file: { type: any; name: string; }) {
-    switch (file.type) {
-      case "folder":
-        return "assets/img/folder_icon.png";
-        break;
-      case "audio/mpeg":
-        return "assets/img/music_icon.png";
-        break;
-      case "video/mp4":
-        return "assets/img/video_icon.png";
-        break;
-      case "document":
-        return "assets/img/docs_icon.png";
-        break;
-      case "text/plain":
-        if (file.name.includes('.ini')) {
-          return "assets/img/settings_icon.png";
-        }
-        else {
-          return "assets/img/docs_icon.png";
-        }
-        break;
-      default:
-        return "assets/img/noimage_icon.png";
-    }
   }
 
   private openMediaModal(file: any) {
@@ -137,17 +111,41 @@ export class FileListComponent implements OnInit {
     const modalDialog = this.matDialog.open(ModalComponent, dialogConfig);
   }
 
+  private getImageUrl(file: { type: any; name: string; }) {
+    switch (file.type) {
+      case "folder":
+        return "assets/img/folder_icon.png";
+      case "audio/mpeg":
+        return "assets/img/music_icon.png";
+      case "video/mp4":
+        return "assets/img/video_icon.png";
+      case "image/jpeg":
+        return "assets/img/image_icon.png";
+      case "document":
+        return "assets/img/docs_icon.png";
+      case "text/plain":
+        if (file.name.includes('.ini')) {
+          return "assets/img/settings_icon.png";
+        }
+        else {
+          return "assets/img/docs_icon.png";
+        }
+      default:
+        console.log(file.type);
+        return "assets/img/noimage_icon.png";
+    }
+  }
+
   private getModalSize(fileType: string) {
     switch(fileType){
       case "audio/mpeg":
-        return { height: "30%", width: "90%"  }
-        break;
+        return { height: "30%", width: "90%"  };
       case "video/mp4":
-        return { height: "60%", width: "90%"  }
-        break;
+        return { height: "60%", width: "90%"  };
+      case "image/jpeg":
+        return { height: "450px", width: "350px"  };
       default:
-        return { height: "50%", width: "50%"  };
-        break;
+        return { height: "50%", width: "50%"};
     }
   }
 

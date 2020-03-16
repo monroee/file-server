@@ -16,13 +16,4 @@ export class ModalComponent implements OnInit {
   ) { }
 
   ngOnInit() { }
-
-  // actionFunction() {
-  //   this.modalService.modalAction(this.modalData);
-  //   this.closeModal();
-  // }
-
-  // closeModal() {
-  //   this.dialogRef.close();
-  // }
 }
