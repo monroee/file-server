@@ -20,6 +20,28 @@ fileRoute.route('/download').get((req, res) => {
     res.download(file);
 })
 
+fileRoute.route('/about').get((req, res) => {
+    const about = `
+    The purpose of this application is to easily
+    share my files (e.g. Music, Videos (if you know what i mean. >;D ), Documents and some other files) 
+    with my friends and relatives via local network and server as my laptop.
+    
+    Browsing with their phones, tablets or laptops where they can download and play the files.
+    Sharing is caring! huehuehue
+    `;
+
+    res.send(about);
+});
+
+fileRoute.route('/setting').get((req, res) => {
+    const settings = `
+    This page is not yet implemented.
+    Im so sorry... huhuhuhuhuhu... :'(
+    `;
+
+    res.send(settings);
+});
+
 fileRoute.route('/stream').get((req, res) => {
     let file = path.resolve(req.query.full_path);
     let stat = fs.statSync(file);
